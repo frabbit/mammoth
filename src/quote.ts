@@ -1,1 +1,1 @@
-export const quote = (s:string) => `\`${s}\``
+export const quote = (s:string) => `"${s}"`
