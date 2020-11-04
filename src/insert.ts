@@ -18,6 +18,7 @@ import { Expression } from './expression';
 import { Query } from './query';
 import { ResultSet } from './result-set';
 import { UpdateQuery } from './update';
+import { quote } from './quote';
 
 // https://www.postgresql.org/docs/12/sql-insert.html
 export class InsertQuery<
@@ -587,7 +588,7 @@ export const makeInsertInto = (queryExecutor: QueryExecutorFn) => <T extends Tab
   return {
     select: makeSelect(queryExecutor, [
       new StringToken(`INSERT INTO`),
-      new StringToken((table as Table<any, any>).getName()),
+      new StringToken(quote((table as Table<any, any>).getName())),
       new GroupToken([
         new SeparatorToken(
           `,`,
@@ -608,7 +609,7 @@ export const makeInsertInto = (queryExecutor: QueryExecutorFn) => <T extends Tab
         'AFFECTED_COUNT',
         [
           new StringToken(`INSERT INTO`),
-          new StringToken((table as Table<any, any>).getName()),
+          new StringToken(quote((table as Table<any, any>).getName())),
           new GroupToken([
             new SeparatorToken(
               `,`,
@@ -620,7 +621,7 @@ export const makeInsertInto = (queryExecutor: QueryExecutorFn) => <T extends Tab
             ),
           ]),
           new StringToken(`DELETE FROM`),
-          new StringToken((deleteTable as Table<any, any>).getName()),
+          new StringToken(quote((deleteTable as Table<any, any>).getName())),
         ],
       );
     },
@@ -649,7 +650,7 @@ export const makeInsertInto = (queryExecutor: QueryExecutorFn) => <T extends Tab
 
           return new UpdateQuery(queryExecutor, [], table, 'AFFECTED_COUNT', [
             new StringToken(`INSERT INTO`),
-            new StringToken((table as Table<any, any>).getName()),
+            new StringToken(quote((table as Table<any, any>).getName())),
             new GroupToken([
               new SeparatorToken(
                 `,`,
@@ -661,7 +662,7 @@ export const makeInsertInto = (queryExecutor: QueryExecutorFn) => <T extends Tab
               ),
             ]),
             new StringToken(`UPDATE`),
-            new StringToken((updateTable as Table<any, any>).getName()),
+            new StringToken(quote((updateTable as Table<any, any>).getName())),
             new StringToken(`SET`),
             new SeparatorToken(
               `,`,
@@ -743,7 +744,7 @@ export const makeInsertInto = (queryExecutor: QueryExecutorFn) => <T extends Tab
     ): InsertQuery<T, number> {
       return new InsertQuery(queryExecutor, [], table, 'AFFECTED_COUNT', [
         new StringToken(`INSERT INTO`),
-        new StringToken((table as Table<any, any>).getName()),
+        new StringToken(quote((table as Table<any, any>).getName())),
         new GroupToken([
           new SeparatorToken(
             `,`,

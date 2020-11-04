@@ -13,6 +13,7 @@ import { Expression } from './expression';
 import { Query } from './query';
 import { ResultSet } from './result-set';
 import { Table } from './table';
+import { quote } from './quote';
 
 // https://www.postgresql.org/docs/12/sql-update.html
 export class UpdateQuery<
@@ -339,7 +340,7 @@ export const makeUpdate = (queryExecutor: QueryExecutorFn) => <T extends Table<a
 
       return new UpdateQuery(queryExecutor, [], table, 'AFFECTED_COUNT', [
         new StringToken(`UPDATE`),
-        new StringToken((table as Table<any, any>).getName()),
+        new StringToken(quote((table as Table<any, any>).getName())),
         new StringToken(`SET`),
         new SeparatorToken(
           `,`,

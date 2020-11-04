@@ -15,6 +15,7 @@ import { Query } from './query';
 import { QueryExecutorFn } from './types';
 import { ResultSet } from './result-set';
 import { Selectable, SelectFn } from './SelectFn';
+import { quote } from './quote';
 
 export { SelectFn };
 
@@ -122,8 +123,8 @@ export class SelectQuery<Columns extends { [column: string]: any }> extends Quer
       ...this.tokens,
       new StringToken(`FROM`),
       table.getOriginalName()
-        ? new StringToken(`${table.getOriginalName()} "${table.getName()}"`)
-        : new StringToken(table.getName()),
+        ? new StringToken(`${quote(table.getOriginalName())} "${table.getName()}"`)
+        : new StringToken(quote(table.getName())),
     ]) as any;
   }
 
@@ -169,7 +170,7 @@ export class SelectQuery<Columns extends { [column: string]: any }> extends Quer
     return this.newSelectQuery([
       ...this.tokens,
       new StringToken(`RIGHT OUTER JOIN`),
-      new StringToken((table as Table<any, any>).getName()),
+      new StringToken(quote((table as Table<any, any>).getName())),
     ]);
   }
 
@@ -179,7 +180,7 @@ export class SelectQuery<Columns extends { [column: string]: any }> extends Quer
     return this.newSelectQuery([
       ...this.tokens,
       new StringToken(`RIGHT JOIN`),
-      new StringToken((table as Table<any, any>).getName()),
+      new StringToken(quote((table as Table<any, any>).getName())),
     ]);
   }
 
@@ -189,14 +190,14 @@ export class SelectQuery<Columns extends { [column: string]: any }> extends Quer
     return this.newSelectQuery([
       ...this.tokens,
       new StringToken(`FULL OUTER JOIN`),
-      new StringToken((table as Table<any, any>).getName()),
+      new StringToken(quote((table as Table<any, any>).getName())),
     ]);
   }
   fullJoin<JoinTable extends Table<any, any>>(table: JoinTable): SelectQuery<AddFullJoin<Columns>> {
     return this.newSelectQuery([
       ...this.tokens,
       new StringToken(`FULL JOIN`),
-      new StringToken((table as Table<any, any>).getName()),
+      new StringToken(quote((table as Table<any, any>).getName())),
     ]);
   }
 
@@ -205,7 +206,7 @@ export class SelectQuery<Columns extends { [column: string]: any }> extends Quer
     return this.newSelectQuery([
       ...this.tokens,
       new StringToken(`CROSS JOIN`),
-      new StringToken((table as Table<any, any>).getName()),
+      new StringToken(quote((table as Table<any, any>).getName())),
     ]);
   }
 
@@ -339,7 +340,7 @@ export class SelectQuery<Columns extends { [column: string]: any }> extends Quer
     return this.newSelectQuery([
       ...this.tokens,
       new StringToken(`OF`),
-      new StringToken(table.getName()),
+      new StringToken(quote(table.getName())),
     ]);
   }
 

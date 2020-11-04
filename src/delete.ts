@@ -14,13 +14,14 @@ import { Column } from './column';
 import { Expression } from './expression';
 import { Query } from './query';
 import type { ResultSet } from './result-set';
+import { quote } from './quote';
 
 export const makeDeleteFrom = (queryExecutor: QueryExecutorFn) => <T extends Table<any, any>>(
   table: T,
 ): T extends TableDefinition<any> ? never : DeleteQuery<T> => {
   return new DeleteQuery<T>(queryExecutor, [], table, 'AFFECTED_COUNT', [
     new StringToken(`DELETE FROM`),
-    new StringToken((table as Table<any, any>).getName()),
+    new StringToken(quote((table as Table<any, any>).getName())),
   ]) as any;
 };
 
