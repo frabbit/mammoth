@@ -30,7 +30,8 @@
     "test": "jest",
     "prebuild": "rm -rf .build && rm -rf coverage",
     "build": "tsc",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "prepare": "npm run build"
   },
   "jest": {
     "moduleFileExtensions": [
