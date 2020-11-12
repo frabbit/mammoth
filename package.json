@@ -16,7 +16,8 @@
   ],
   "files": [
     ".build",
-    "src"
+    "src",
+    "scripts"
   ],
   "devDependencies": {
     "@types/jest": "^26.0.15",
