@@ -15,7 +15,8 @@
     "orm"
   ],
   "files": [
-    ".build"
+    ".build",
+    "src"
   ],
   "devDependencies": {
     "@types/jest": "^26.0.15",
